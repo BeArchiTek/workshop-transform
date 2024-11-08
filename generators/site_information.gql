@@ -1,0 +1,19 @@
+query site_information($site_name: String!) {
+  LocationSite(name__value: $site_name) {
+    edges {
+      node {
+        display_label
+        name {
+          value
+        }
+        design {
+          value
+        }
+        building_block {
+          value
+          label
+        }
+      }
+    }
+  }
+}

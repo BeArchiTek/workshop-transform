@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://schema.infrahub.app/infrahub/schema/latest.json
+version: "1.0"
+
+extensions:
+  nodes:
+    - kind: LocationSite
+      attributes:
+        - name: design
+          kind: Dropdown
+          description: Specifies the topology of site to use.
+          choices:
+            - name: ha
+              label: High-Availability
+              description: Multiple switches connected into a stack
+              color: "#1e90ff"
+            - name: single-node
+              label: Single Node
+              description: Single switch
+              color: "#20b2aa"
+          order_weight: 1150
+        - name: building_block
+          kind: Dropdown
+          description: Specifies the type of device to use.
+          choices:
+            - name: cisco-ws-c3650-24pd-s
+              label: Cisco WS-C3650-24PD-S
+            - name: cisco-ws-c3650-48fd-s
+              label: Cisco WS-C3650-48FD-S
+          order_weight: 1170

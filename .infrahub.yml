@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://schema.infrahub.app/python-sdk/repository-config/latest.json
+---
+# GENERATORS
+generator_definitions:
+  - name: implement_site
+    file_path: "generators/implement_site.py"
+    targets: provisioned_sites
+    query: site_information
+    class_name: ImplementSiteGenerator
+    parameters:
+      site_name: "name__value"
+
+# QUERIES
+queries:
+  - name: site_information
+    file_path: "generators/site_information.gql"
