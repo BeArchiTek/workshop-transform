@@ -10,15 +10,15 @@ nodes:
     namespace: Service
     human_friendly_id:
       - site__name__value
-      - type__value
+      - service_type__value
     uniqueness_constraints:
-      - [site, type__value]
+      - [site, service_type__value]
     order_by:
       - site__name__value
     display_labels:
-      - type__value
+      - service_type__value
     attributes:
-      - name: type
+      - name: service_type
         kind: Dropdown
         description: Specifies the topology of site to use.
         choices:

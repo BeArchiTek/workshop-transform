@@ -16,7 +16,7 @@ query site_information($site_name: String!) {
         services {
           edges {
             node {
-              type {
+              service_type {
                 value
               }
             }

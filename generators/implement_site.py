@@ -149,7 +149,7 @@ class ImplementSiteGenerator(InfrahubGenerator):
 
         for service in services_list:
             service = service["node"]
-            service_type: str = service["type"]["value"]
+            service_type: str = service["service_type"]["value"]
 
             # Here we are going to create the WIFI related objects
             if service_type == "wifi":
@@ -173,6 +173,8 @@ class ImplementSiteGenerator(InfrahubGenerator):
                     # TODO: add a filter on device role for instance
                     include=["interfaces"],
                 )
+
+                # FIXME: Maybe not a good example as scale down isn't right ...
 
                 # Then we seach upstream interfaces to tag the VLAN
                 for device in devices:
