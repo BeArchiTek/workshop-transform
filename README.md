@@ -12,11 +12,13 @@ invoke demo.load-infra-schema
 # Load the data
 invoke demo.load-infra-data
 
-# Create group
-
 # Load schema extension
+infrahubctl schema load schemas/site-extension.yml
 
-# Connect repo
+# Create a new site + add a service to it
+
+# Run generator
+infrahubctl generator implement_site site_name="my-site-123"
 ```
 
 infrahubctl generator implement_site site_name="my-site"
