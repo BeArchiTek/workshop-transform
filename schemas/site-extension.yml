@@ -2,6 +2,40 @@
 # yaml-language-server: $schema=https://schema.infrahub.app/infrahub/schema/latest.json
 version: "1.0"
 
+nodes:
+  - name: SiteService
+    label: Site Service
+    description: A service containing a set of bulding blocks on a site.
+    icon: bxs:component
+    namespace: Service
+    human_friendly_id:
+      - site__name__value
+      - type__value
+    uniqueness_constraints:
+      - [site, type__value]
+    order_by:
+      - site__name__value
+    display_labels:
+      - type__value
+    attributes:
+      - name: type
+        kind: Dropdown
+        description: Specifies the topology of site to use.
+        choices:
+          - name: wifi
+            label: Wi-fi
+            description: Brings in the wi-fi layer into that site
+          - name: voice
+            label: Voice
+            description: Brings the voice QOS related configuration to that site
+    relationships:
+      - name: site
+        peer: LocationSite
+        order_weight: 1100
+        optional: false
+        cardinality: one
+        kind: Parent
+
 extensions:
   nodes:
     - kind: LocationSite
@@ -28,3 +62,10 @@ extensions:
             - name: cisco-ws-c3650-48fd-s
               label: Cisco WS-C3650-48FD-S
           order_weight: 1170
+      relationships:
+        - name: services
+          peer: ServiceSiteService
+          order_weight: 1100
+          optional: true
+          cardinality: many
+          kind: Component
