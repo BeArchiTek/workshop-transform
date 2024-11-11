@@ -4,7 +4,7 @@
 generator_definitions:
   - name: implement_site
     file_path: "generators/implement_site.py"
-    targets: provisioned_sites
+    targets: automated_sites
     query: site_information
     class_name: ImplementSiteGenerator
     parameters:

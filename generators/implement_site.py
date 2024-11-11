@@ -10,7 +10,7 @@ DESIGNS = {"single-node": {"number_of_switch": 1}, "ha": {"number_of_switch": 2}
 IP_MANAGEMENT_POOL = "Management addresses pool"
 
 # Here we have device type information
-# TODO: eventually we would like to capture that in infrahub in a device type object
+# TODO: eventually we would like to capture that in infrahub in a device template object
 TEMPLATES = {
     "cisco-ws-c3650-24pd-s": {
         "label": "Cisco WS-C3650-24PD-S",
@@ -69,7 +69,7 @@ TEMPLATES = {
             },
         ],
     },
-    # TODO: Add cisco-ws-c3650-48fd-s
+    # TODO: Add other examples
 }
 
 
@@ -142,7 +142,7 @@ class ImplementSiteGenerator(InfrahubGenerator):
 
         # Execute the batch
         async for node, _ in interface_batch.execute():
-            pass  # TODO: Maybe improve that part
+            pass  # TODO: Improve that part
 
         # Manage the service part
         services_list: dict = site_dict["services"]["edges"]
@@ -158,7 +158,7 @@ class ImplementSiteGenerator(InfrahubGenerator):
                     kind="InfraVLAN",
                     name=f"wifi-{site_dict['name']['value']}",
                     vlan_id=444,
-                    description=f"VLAN for wifi guest on site {site_dict['name']['value']}.",
+                    description=f"VLAN for wifi on site {site_dict['name']['value']}.",
                     status="active",
                     role="user",
                     site=site_dict["name"]["value"],

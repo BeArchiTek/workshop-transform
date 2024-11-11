@@ -11,6 +11,7 @@ nodes:
     human_friendly_id:
       - site__name__value
       - service_type__value
+    menu_placement: InfraService
     uniqueness_constraints:
       - [site, service_type__value]
     order_by:
@@ -28,6 +29,10 @@ nodes:
           - name: voice
             label: Voice
             description: Brings the voice QOS related configuration to that site
+      - name: description
+        kind: Text
+        optional: true
+        order_weight: 2000
     relationships:
       - name: site
         peer: LocationSite
@@ -42,6 +47,7 @@ extensions:
       attributes:
         - name: design
           kind: Dropdown
+          optional: true
           description: Specifies the topology of site to use.
           choices:
             - name: ha
@@ -55,12 +61,15 @@ extensions:
           order_weight: 1150
         - name: building_block
           kind: Dropdown
+          optional: true
           description: Specifies the type of device to use.
           choices:
             - name: cisco-ws-c3650-24pd-s
               label: Cisco WS-C3650-24PD-S
             - name: cisco-ws-c3650-48fd-s
               label: Cisco WS-C3650-48FD-S
+            - name: arista-710P
+              label: Arista 710P
           order_weight: 1170
       relationships:
         - name: services
