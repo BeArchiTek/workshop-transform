@@ -9,6 +9,8 @@ DESIGNS = {"single-node": {"number_of_switch": 1}, "ha": {"number_of_switch": 2}
 
 IP_MANAGEMENT_POOL = "Management addresses pool"
 
+DEVICE_GROUP = "cisco_devices"
+
 # Here we have device type information
 # TODO: eventually we would like to capture that in infrahub in a device template object
 TEMPLATES = {
@@ -93,6 +95,9 @@ class ImplementSiteGenerator(InfrahubGenerator):
         pool = await self.client.get(
             kind="CoreIPAddressPool", name__value=IP_MANAGEMENT_POOL
         )
+        group = await self.client.get(
+            kind="CoreStandardGroup", name__value=DEVICE_GROUP
+        )
 
         # Create switches
         for i in range(1, number_of_switches + 1):  # here we +1 to not have switch 0
@@ -105,6 +110,7 @@ class ImplementSiteGenerator(InfrahubGenerator):
                 role="cpe",
                 site=site_dict["name"]["value"],
                 type=switch_template["label"],
+                member_of_groups=[group.id],
                 primary_address=pool,  # This is where the magic happens
             )
 

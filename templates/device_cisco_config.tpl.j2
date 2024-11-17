@@ -1,0 +1,67 @@
+{% if data.InfraDevice.edges %}
+vlan internal order ascending range 1006 1199
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model multi-agent
+!
+hostname {{ data.InfraDevice.edges[0].node.name.value }}
+!
+spanning-tree mode mstp
+no spanning-tree vlan-id 4093-4094
+spanning-tree mst 0 priority 16384
+!
+no enable password
+no aaa root
+!
+! Vlan Configuration
+{% for vlan in data.InfraDevice.edges[0].node.site.node.vlans.edges %}
+vlan {{ vlan.node.vlan_id.value }}
+   name {{ vlan.node.name.value }}
+!
+{% endfor %}
+!
+{% for intf in data.InfraDevice.edges[0].node.interfaces.edges %}
+interface {{ intf.node.name.value }}
+{% if intf.node.description.value %}
+  description "{{ intf.node.description.value }}"
+{% endif %}
+{% if not intf.node.enabled.value %}
+  shutdown
+{% endif %}
+{% if intf.node["ip_addresses"] %}
+{% for ip in intf.node["ip_addresses"]["edges"] %}
+   ip address {{ ip.node["address"]["value"] }}
+   no switchport
+{% if intf.node.role.value in ["peer", "backbone"] %}
+   ip ospf network point-to-point
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if intf.node.untagged_vlan and intf.node.untagged_vlan.node %}
+   switchport trunk native vlan {{ intf.node.untagged_vlan.node.vlan_id.value }}
+{% endif %}
+{% if intf.node.tagged_vlan and intf.node.tagged_vlan.edges %}
+   switchport trunk allowed vlan {% for tagged_vlan in intf.node.tagged_vlan.edges %}{{ tagged_vlan.node.vlan_id.value }}{% if not loop.last %},{% endif %}{% endfor %}
+{% endif %}
+!
+{% endfor %}
+!
+ip prefix-list BOGON-Prefixes seq 10 permit 172.16.0.0/12 le 24
+ip prefix-list BOGON-Prefixes seq 20 permit 192.168.0.0/16 le 24
+!
+ip routing
+!
+{% if data.InfraDevice.edges[0].node.asn %}
+router bgp {{ data.InfraDevice.edges[0].node.asn.node.asn.value }}
+   router-id {{ ns.loopback_ip }}
+!
+{% endif %}
+!
+route-map BOGONS permit 10
+   match ip address prefix-list BOGON-Prefixes
+!
+route-map BOGONS deny 20
+{% else %}
+{# Warning: No Device found with this name #}
+{% endif %}
