@@ -7,6 +7,13 @@ jinja2_transforms:
     query: "device_info"
     template_path: "templates/device_cisco_config.tpl.j2"
 
+
+python_transforms:
+  - name: device_cisco_python
+    class_name: DeviceCisco
+    file_path: "transforms/device_cisco_python.py"
+
+# ARTIFACTS
 artifact_definitions:
   - name: "Startup Config for Cisco devices"
     artifact_name: "startup-config"
@@ -15,6 +22,14 @@ artifact_definitions:
     content_type: "text/plain"
     targets: "cisco_devices"
     transformation: "device_cisco"
+
+  - name: "Configuration via Python Transform"
+    artifact_name: "startup-config-python"
+    parameters:
+      device: "name__value"
+    content_type: "text/plain"
+    targets: "cisco_devices"
+    transformation: "device_cisco_python"
 
 # GENERATORS
 generator_definitions:
@@ -29,6 +44,6 @@ generator_definitions:
 # QUERIES
 queries:
   - name: site_information
-    file_path: "generators/site_information.gql"
+    file_path: "queries/site_information.gql"
   - name: device_info
-    file_path: "templates/device_info.gql"
+    file_path: "queries/device_info.gql"
