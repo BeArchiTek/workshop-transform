@@ -17,7 +17,4 @@ class DeviceCisco(InfrahubTransform):
                     response.append(f"  description {description}")
                 response.append("!")
 
-
-
-
         return "\n".join(response)
