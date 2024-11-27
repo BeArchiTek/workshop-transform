@@ -1,0 +1,81 @@
+query device_startup_info2($device: String!) {
+  InfraDevice(name__value: $device) {
+    edges {
+      node {
+        id
+        name {
+          value
+        }
+        site {
+          node {
+            vlans {
+              edges {
+                node{
+                  vlan_id { value}
+                  name {value}
+                }
+              }
+            }
+          }
+        }
+        interfaces {
+          edges {
+            node {
+              id
+              name {
+                value
+              }
+              description {
+                value
+              }
+              enabled {
+                value
+              }
+              mtu {
+                value
+              }
+              role {
+                value
+              }
+              ... on InfraInterfaceL3 {
+                ip_addresses {
+                  edges {
+                    node {
+                      address {
+                        value
+                      }
+                    }
+                  }
+                }
+              }
+              ... on InfraInterfaceL2 {
+                tagged_vlan {
+                  edges {
+                    node {
+                      vlan_id {
+                        value
+                      }
+                      name {
+                        value
+                      }
+                    }
+                  }
+                }
+                untagged_vlan {
+                  node {
+                    vlan_id {
+                      value
+                    }
+                    name {
+                      value
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

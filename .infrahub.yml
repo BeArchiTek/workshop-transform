@@ -47,3 +47,5 @@ queries:
     file_path: "queries/site_information.gql"
   - name: device_info
     file_path: "queries/device_info.gql"
+  - name: device_info2
+    file_path: "queries/device_info2.gql"
