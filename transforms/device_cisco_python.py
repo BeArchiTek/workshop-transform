@@ -16,7 +16,8 @@ class DeviceCisco(InfrahubTransform):
                 intf_data = {}
 
                 # Interface description
-                intf_data["description"] = intf["node"].get("description", {}).get("value", "FREE")
+                description_value = intf["node"].get("description", {}).get("value")
+                intf_data["description"] = description_value if description_value is not None else "FREE"
 
                 # Interface status (enabled/disabled)
                 intf_data["enabled"] = intf["node"].get("enabled", {}).get("value", True)
